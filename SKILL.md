@@ -29,7 +29,14 @@ skill only once, not alongside a duplicate copy. See README for language scope.
 For a newly unpacked user distribution, start with `ЧИТАТЬ_ПЕРВЫМ.md`.
 Other companion skills are optional expert workflows, not runtime dependencies.
 The separate 26-skill collection is catalogued in `docs/COMPANION_SKILLS.md`;
-its files are not included in this package.
+its files are published in the repository's `companion-skills/` folder and a
+separate release ZIP, not bundled inside the main skill ZIP.
+
+If terminology preparation is requested, read the glossary section in `README.md`.
+Prepare/review a compact UTF-8 `glossary.md` beside the input BEFORE `init`; the
+job snapshots it. It may be prepared manually or with an explicitly chosen model.
+Do not silently generate one or send book text to a cloud assistant. Freeze it
+during a run; changed terminology needs a new input/job, not edits to `JOB/input`.
 
 ```text
 python scripts/pipeline.py init INPUT --out NEW_JOB_FOLDER
