@@ -1,0 +1,15 @@
+\usepackage{microtype}
+\usepackage{parskip}
+\raggedbottom
+\setlength{\emergencystretch}{3em}
+% Titles already carry their own numbering (I., II., A., B. …) — suppress LaTeX auto-numbering
+\setcounter{secnumdepth}{-1}
+% Times New Roman lacks some arrow glyphs — render them via math fallback
+\usepackage{amssymb}
+\usepackage{newunicodechar}
+\newunicodechar{⇄}{\ensuremath{\rightleftarrows}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⟶}{\ensuremath{\longrightarrow}}
+% Печатное оглавление держим неглубоким (главы + разделы), а ВНУТРЕННЮЮ навигацию
+% PDF (закладки/outline) делаем глубокой — до отдельных сессий и подтем.
+\AtBeginDocument{\hypersetup{bookmarksdepth=4,bookmarksopenlevel=1}}
