@@ -1,0 +1,55 @@
+% ===================================================================
+%  Shared preamble for a translated book.  Engine: LuaLaTeX.
+%  Adapt: the babel languages and the two \set...font lines to your target.
+% ===================================================================
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\usepackage[english,russian]{babel}   % <- set source,target languages
+
+% A main font + math font that BOTH cover the target script and maths.
+% STIX Two: full Cyrillic + matched math font (with bold math).
+% Verify availability first:  luaotfload-tool --find="STIX Two Text"
+\setmainfont{STIX Two Text}
+\setmathfont{STIX Two Math}
+% route legacy \boldsymbol through unicode-math's \symbf
+\AtBeginDocument{\renewcommand{\boldsymbol}[1]{\symbf{#1}}}
+% safe no-op if hyperref is absent but \texorpdfstring appears in headings
+\providecommand{\texorpdfstring}[2]{#1}
+
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage[most]{tcolorbox}
+\usepackage{caption}
+\usepackage{microtype}
+
+% Figure numbering. Per-chapter [1],[2]…  (book class resets the counter at
+% each \chapter).  For global [C.N], use \thechapter.\arabic{figure} instead.
+\renewcommand{\thefigure}{\arabic{figure}}
+\DeclareCaptionLabelFormat{sqbr}{[#2]}
+\captionsetup[figure]{labelformat=sqbr, labelsep=quad,
+  font=small, labelfont=bf, textfont=it, justification=justified}
+
+% Robust figure include: if the PNG isn't extracted yet, degrade to a labelled
+% placeholder so the chapter still compiles (write text first, figures later).
+\newcommand{\figdir}{../../figures/book}     % <- your figures tree
+\newcommand{\figref}[1]{[#1]}
+\newcommand{\figincl}[2][\linewidth]{%
+  \IfFileExists{\figdir/#2}%
+    {\includegraphics[width=#1]{\figdir/#2}}%
+    {\fbox{\parbox[c][0.16\textheight][c]{0.92\linewidth}{\centering\small
+       [figure: {\ttfamily\detokenize{#2}}]}}}}
+
+% Boxed numbered RESULT (text mode — use this, NOT an equation, for any
+% numbered statement that is prose in the target language):
+%   \begin{axiombox} ...target-language sentence with $math$... \hfill(N)\end{axiombox}
+\newtcolorbox{axiombox}[1][]{
+  colback=black!4, colframe=black!55, boxrule=0.6pt, arc=2pt,
+  left=8pt,right=8pt,top=6pt,bottom=6pt, #1}
+
+\theoremstyle{definition}
+\newtheorem{theoremN}{Theorem}[chapter]   % <- translate "Theorem"
+\newtheorem*{remarkN}{Remark}
