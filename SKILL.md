@@ -1,5 +1,5 @@
 ---
-name: translate-en-ru-pdf-latex
+name: translate-pdf-latex
 description: >-
   Run a local-first book translation and LaTeX/PDF pipeline, including English
   technical PDFs, existing LaTeX skeletons, and prepared German OCR projects.
@@ -20,8 +20,16 @@ An OpenCode or other agent need only run fixed commands and read compact status.
 Run from this skill's directory with its Python environment (Windows:
 `venv\Scripts\python.exe`; otherwise the installed Python with requirements).
 Dependencies and the model must already be installed; see `УСТАНОВКА.md` if absent.
+Translation-engine languages are configurable; the simple books/skeleton routes
+currently accept EN->RU only, and the prepared OCR workflow is verified for DE->RU.
+Do not promise arbitrary-language PDF production from MT language flags alone:
+OCR, sanitation, target fonts/templates and acceptance must also support the pair.
+The old distribution name was `translate-en-ru-pdf-latex`; install this renamed
+skill only once, not alongside a duplicate copy. See README for language scope.
 For a newly unpacked user distribution, start with `ЧИТАТЬ_ПЕРВЫМ.md`.
 Other companion skills are optional expert workflows, not runtime dependencies.
+The separate 26-skill collection is catalogued in `docs/COMPANION_SKILLS.md`;
+its files are not included in this package.
 
 ```text
 python scripts/pipeline.py init INPUT --out NEW_JOB_FOLDER

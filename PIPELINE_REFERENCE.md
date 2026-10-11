@@ -1,5 +1,5 @@
 ---
-name: translate-en-ru-pdf-latex-reference
+name: translate-pdf-latex-reference
 description: >-
   Translate English PDFs (books, papers, technical and math-heavy documents) into
   Russian and typeset the result as LaTeX/PDF. Use this skill whenever the user wants
@@ -256,7 +256,7 @@ Additional rules:
 - `scripts/accept_fraktur.py` — acceptance for the Fraktur route: paragraph numbers and their monotonicity, folios, stubs, and the headline metric — the ru/de length ratio BY BLOCK-LENGTH BAND, which shows at a glance whether the model is translating or summarizing.
 - `scripts/check_glossary.py` — glossary compliance: how often the prescribed rendering actually appears. German terms are matched case-sensitively (a capitalized noun is what distinguishes the term «Werden» from the auxiliary «werden»); Russian by stem, ё/е folded.
 - `scripts/probe_tiers.py` — is there a geometric signal for the edition's tiers (Anmerkung/Zusatz) at all, i.e. is a second hOCR pass worth it? Uses the labelled tier as ground truth; on the 1843 edition the answer was no (identical type size and leading), and the probe says so in a minute instead of hours.
-- `scripts/sync_skill.py` — mirror the pipeline into `~/.claude/skills/translate-en-ru-pdf-latex`.
+- `scripts/sync_skill.py` — mirror the pipeline into `~/.claude/skills/translate-pdf-latex`.
 - `scripts/check_images.py` — verify every referenced figure exists and is a real image.
 - `scripts/reencode_images.py` — re-encode exotic JPEGs (CMYK/progressive) to baseline RGB.
 - `scripts/trim_images.py` — trim near-white margins off figure crops (one-time backup, adaptive mode for faint figures).
