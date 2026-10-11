@@ -10,12 +10,28 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import make_package as package
+import sync_skill
 from verify_package import verify
 from provenance import sha_file
 from provenance import atomic_text, write_json
 
 
 class PackagingTests(unittest.TestCase):
+    def test_sync_preserves_user_profile_and_repack_inventory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, dest = Path(tmp) / "source", Path(tmp) / "skill"
+            result = self.fixture(root)
+            write_json(root / "package.manifest.json", {"schema": 1, "profile": "user"})
+            write_json(dest / "package.manifest.json", {"schema": 1, "files": {"old": "old"}})
+            with patch.object(sync_skill, "ROOT", root), patch.object(package, "DOCS", ["SKILL.md", "docs/ARTICLE_IDEAS.md"]), patch.object(package.subprocess, "run", return_value=result):
+                sync_skill.sync(dest)
+                self.assertEqual(package.package_profile(dest), "user")
+                self.assertEqual(package.package_files(dest), ["SKILL.md", "scripts/translate.py"])
+                self.assertEqual(verify(dest), (2, []))
+            saved = list((dest / ".sync-backups").glob("*/package.manifest.json"))
+            self.assertEqual(len(saved), 1)
+            self.assertEqual(json.loads(saved[0].read_text())["files"], {"old": "old"})
+
     def test_user_zip_has_single_skill_root_and_hashes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / "source"
