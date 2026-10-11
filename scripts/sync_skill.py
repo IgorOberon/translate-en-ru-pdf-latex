@@ -13,7 +13,7 @@ import sys
 import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from make_package import package_files
+from make_package import NAME, SKILL_NAME, package_files, package_profile
 from paths import ROOT
 from provenance import inside, sha_file, write_json
 
@@ -23,7 +23,8 @@ def sync(destination, dry=False):
     source = ROOT.resolve()
     if destination == source or source.is_relative_to(destination) or destination.is_relative_to(source):
         raise ValueError("skill destination must be outside the source checkout")
-    files = package_files()
+    profile = package_profile(source)
+    files = package_files(source, profile=profile)
     run = uuid.uuid4().hex
     changed = []
     for name in files:
@@ -41,7 +42,14 @@ def sync(destination, dry=False):
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
     if not dry:
+        manifest_path = destination / "package.manifest.json"
+        if manifest_path.exists():
+            backup = inside(destination, ".sync-backups/" + run + "/package.manifest.json")
+            backup.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(manifest_path, backup)
         write_json(destination / "package.manifest.json", {"schema": 1,
+                   "name": SKILL_NAME if profile == "user" else NAME,
+                   "profile": profile,
                    "files": {name: sha_file(inside(destination, name)) for name in files}})
         for name in files:
             if sha_file(inside(destination, name)) != sha_file(inside(source, name)):
@@ -57,10 +65,10 @@ def sync(destination, dry=False):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dest")
-    ap.add_argument("--agent-skills", nargs="?", const=str(Path.home() / "agent-skills/translate-en-ru-pdf-latex"))
+    ap.add_argument("--agent-skills", nargs="?", const=str(Path.home() / "agent-skills/translate-pdf-latex"))
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
-    targets = [Path(a.dest) if a.dest else Path.home() / ".claude/skills/translate-en-ru-pdf-latex"]
+    targets = [Path(a.dest) if a.dest else Path.home() / ".claude/skills/translate-pdf-latex"]
     if a.agent_skills:
         targets.append(Path(a.agent_skills))
     for target in dict.fromkeys(targets):

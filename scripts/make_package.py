@@ -23,11 +23,11 @@ from paths import ROOT
 from provenance import inside, sha_file, write_json, atomic_text
 
 NAME = "Конвейер-перевода-книг"
-SKILL_NAME = "translate-en-ru-pdf-latex"
+SKILL_NAME = "translate-pdf-latex"
 DIRS = ("scripts", "assets", "skeleton", "tests")
 DOCS = [
     "LICENSE", ".gitignore", "CONTRIBUTING.md", "SECURITY.md", "THIRD_PARTY.md",
-    "docs/VALIDATION.md",
+    "docs/VALIDATION.md", "docs/COMPANION_SKILLS.md",
     "AGENTS.md", "PIPELINE_REFERENCE.md", "ПРОМПТ_РУЧНЫЕ_СТАДИИ.md",
     "docs/LOCAL_AGENT.md", "docs/ARTICLE_IDEAS.md",
     "ЧИТАТЬ_ПЕРВЫМ.md", "УСТАНОВКА.md", "ДЛЯ_ИИ_АГЕНТА.md",
