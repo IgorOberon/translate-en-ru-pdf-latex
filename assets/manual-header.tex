@@ -1,0 +1,16 @@
+% Преамбула для сборки ПОСОБИЕ.md → ПОСОБИЕ.pdf (см. конец пособия).
+%
+% Зачем: в пособии есть командные строки длиной под 140 знаков, а verbatim
+% в LaTeX не переносится в принципе — строка молча уезжает за правое поле и
+% обрывается. В прежней сборке пособия так потерялись хвосты доброй дюжины
+% команд: читатель видел «python scripts\mask_math.py mask … work\book» и
+% дальше край полосы. Копировать такую команду некуда.
+%
+% fvextra переопределяет окружения, в которые pandoc кладёт код, и включает
+% перенос. breakanywhere нужен именно здесь: в путях и ключах вида
+% work\book.ru.masked.md нет пробелов, и переносить их иначе не по чему.
+\usepackage{fvextra}
+\DefineVerbatimEnvironment{verbatim}{Verbatim}%
+  {breaklines,breakanywhere,fontsize=\small}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}%
+  {breaklines,breakanywhere,commandchars=\\\{\},fontsize=\small}
