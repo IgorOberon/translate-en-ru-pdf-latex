@@ -1,0 +1,3 @@
+# Preserve package.manifest.json hashes across Windows/Linux checkouts.
+# Disable automatic line-ending conversion; normal text diffs remain available.
+* -text
