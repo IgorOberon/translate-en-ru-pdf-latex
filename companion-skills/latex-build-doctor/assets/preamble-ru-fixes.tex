@@ -1,0 +1,27 @@
+% preamble-ru-fixes.tex — known-good preamble block for Russian docs with math
+% (XeLaTeX / MiKTeX, Windows-first). Paste-ready fixes distilled from real
+% builds; safe to \input or copy into any preamble.
+\usepackage{fontspec}
+\setmainfont{Times New Roman}\setsansfont{Arial}\setmonofont{Consolas}
+\usepackage{polyglossia}\setmainlanguage{russian}\setotherlanguage{english}
+\usepackage{csquotes}
+\usepackage{amsmath,amssymb,mathtools,mathrsfs}
+\usepackage{graphicx}\graphicspath{{images/}{./}}
+\usepackage{longtable,booktabs,array,calc}
+\usepackage[hidelinks]{hyperref}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\providecommand{\real}[1]{#1}
+% figures behave: oversized shrink to page, missing become a framed note
+\newsavebox\FigMeasureBox
+\let\SavedIncludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \IfFileExists{#2}{%
+    \sbox\FigMeasureBox{\SavedIncludegraphics[#1]{#2}}%
+    \ifdim\wd\FigMeasureBox>\linewidth
+      \SavedIncludegraphics[width=\linewidth,keepaspectratio]{#2}%
+    \else\ifdim\ht\FigMeasureBox>0.82\textheight
+      \SavedIncludegraphics[height=0.82\textheight,keepaspectratio]{#2}%
+    \else\usebox\FigMeasureBox\fi\fi}%
+  {\fbox{\parbox{0.7\linewidth}{\centering\small [image not found]\\
+    \ttfamily\tiny \detokenize{#2}}}}}
